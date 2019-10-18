@@ -1,0 +1,24 @@
+
+SELECT 
+SUM(CASE (WHEN event LIKE '%post%' then 100.0 else 0.0 end))/ SUM(CASE WHEN event <> '' then 1 end) as conversion_rate
+FROM events_table
+group by event_date
+
+
+
+
+SELECT event_type, 
+       total_pins, 
+       total_activity,
+       ROUND(CAST(total_pins as float)/(total_activity)*100,2) as conversion_rate
+FROM
+    ( SELECT count(event_type) as total_pins
+    FROM total_activity
+    WHERE event_type LIKE '%pin'
+    group by event_type) P
+RIGHT JOIN
+    (SELECT count(event_type) as total_activity
+    FROM events_table
+    WHERE event_type <>''
+    group by event_type) T
+ON T.event_type = P.event_type

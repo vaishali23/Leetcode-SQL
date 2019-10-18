@@ -1,0 +1,10 @@
+SELECT user_id,
+       t.created_time,
+       product
+FROM transactions as T
+INNER JOIN
+(SELECT user_id , min(created_at) as min_time
+FROM transactions
+group by user_id ) as T1
+on T.user_id = T1.user_id
+and T.created_time = T1.min_time

@@ -1,0 +1,5 @@
+SELECT user_id,
+       date,
+       CASE WHEN (sum(num_logins)over (partition by user_id order by date rows between 14 preceeding and current row)>=1 then TRUE 
+       ELSE FALSE END AS active
+FROM useractivity_table

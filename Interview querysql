@@ -1,0 +1,13 @@
+SELECT c.name 
+FROM cities c
+LEFT JOIN users u
+on u.city_id = cities.id
+where c.name is null
+
+
+SELECT count(*),
+        DATEPART('day', created_at) as date,
+        CASE WHEN DATEPART(hour,created_at) >11 then "AM" 
+        ELSE "PM" END AS HOUR 
+FROM transactions 
+GROUP BY date, HOUR        
